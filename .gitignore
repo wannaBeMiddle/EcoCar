@@ -2,3 +2,5 @@
 /app/configuration.php
 /app/modules
 /logs
+.htaccess
+index.php
