@@ -4,3 +4,4 @@
 /logs
 .htaccess
 index.php
+/app/namespaces.php
