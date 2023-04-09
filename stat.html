@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Мой автомобиль</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="stat.html">EcoCar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="stat.html">Моё авто</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">Личный кабинет</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="question.html">Задать вопрос</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-danger" href="question.html">Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid d-flex h-100 justify-content-center align-items-center p-0">
+    <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Компонент</th>
+                <th scope="col">Содержание по объему, %</th>
+                <th scope="col">Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">Азот</th>
+                <td>74.9</td>
+                <td>В норме</td>
+            </tr>
+            <tr>
+                <th scope="row">Кислород</th>
+                <td>0.5</td>
+                <td>В норме</td>
+            </tr>
+            <tr>
+                <th scope="row">Пары воды</th>
+                <td>3</td>
+                <td>В норме</td>
+            </tr>
+            <tr class="table-danger">
+                <th scope="row">Диоксид углерода</th>
+                <td>14.3</td>
+                <td>Выше нормы</td>
+            </tr>
+            <tr>
+                <th scope="row">Оксид углерода</th>
+                <td>5.3</td>
+                <td>В норме</td>
+            </tr>
+            <tr class="table-danger">
+                <th scope="row">Оксид серы</th>
+                <td>0.1</td>
+                <td>Выше нормы</td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Данные обновлены: 02.04.2023</p>
+        <button type="button" class="btn btn-primary">Запросить обновление данных</button>
+        <div class="table-explaining">
+            <h4>Найденные проблемы:</h4>
+            <p>
+                <b>Высокое содержание СН.</b> Нормальное значение СН – 50 - 200 ррm.
+                Если на табло прибора мы видим СН, равный 300 - 400 и более, это повод
+                искать причину, по которой бензин попросту не сгорает, другими словами, имеют место пропуски вспышек. Не «пропуски искры», как иногда
+                выражаются, а именно вспышек. А вот причин этих пропусков много. Изношенные или неисправные свечи, высоковольтные провода, дефектный
+                модуль зажигания, не отрегулированные клапаны, пониженная компрессия, неисправная (забитая) форсунка. Причем все это – как в одном, так и
+                в нескольких цилиндрах. Еще одна причина повышенного содержания в
+                ОГ паров топлива – неплотный или начинающий прогорать выпускной
+                клапан. В этом случае на такте сжатия часть топливного заряда попросту
+                выталкивается в выпускной тракт. Двигатель при этом может работать
+                вполне нормально, и остальные параметры газоанализа будут в норме.
+            </p>
+            <p>
+                <b>Богатая смесь.</b> В этом случае газоанализатор покажет высокое содержание СО, повышенное СН, пониженное СО2, О2, и лямбда меньше
+                единицы. Причин много – неверные показания ДМРВ (чаще всего), повышенное давление топлива, неверный сигнал ДТОЖ, а также бензин в
+                масле, статью о котором следует читать вместе с этой, чтобы сложилось
+                полное понимание происходящего. Говоря о повышенном содержании
+                СН, следует понимать величину до 300 - 500 ррm, такое значение обычно
+                сопровождает богатую смесь. Если же оно значительно выше, причем
+                признаки богатой смеси могут и отсутствовать, то это уже проявление
+                следующего дефекта.
+            </p>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+</body>
+</html>
