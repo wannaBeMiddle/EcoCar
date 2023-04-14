@@ -74,4 +74,14 @@ class Main implements ControllerInterface
 		}
 		$view->show('signup', $user, false);
 	}
+
+	public function logout()
+	{
+		if(Session::has('USER'))
+		{
+			Session::unset('USER');
+		}
+		header('Location: /');
+		die();
+	}
 }
