@@ -13,63 +13,64 @@ class Main implements ControllerInterface
 {
 	public function login()
 	{
-		if(Container::getInstance()->get(User::class)->isAuthorized())
-		{
-			header('Location: /stat/');
-			die();
-		}
+		$this->redirectIfAuthorized();
+
 		$request = Container::getInstance()->get(Request::class);
 		$view = Container::getInstance()->get(View::class);
-		$email = $request->getPostParameter('email');
-		$password = $request->getPostParameter('password');
+
+		$userData = [
+			'EMAIL' => $request->getPostParameter('email'),
+			'PASSWORD' => $request->getPostParameter('password')
+		];
+
 		$user = [];
-		if($email || $password)
+		if($userData['EMAIL'] || $userData['PASSWORD'])
 		{
-			$user = Container::getInstance()->get(User::class)->authorize($email, $password);
+			$user = Container::getInstance()->get(User::class)->authorize($userData);
 			if(!isset($user['errors']))
 			{
 				header('Location: /stat/');
 				die();
 			}
 		}
+
 		$view->show('login', [
-			'email' => $email,
-			'user' => $user
+			'email' => $userData['EMAIL'],
+			'errors' => $user['errors']??[]
 		], false);
 	}
 
 	public function signup()
 	{
-		if(Container::getInstance()->get(User::class)->isAuthorized())
-		{
-			header('Location: /stat/');
-			die();
-		}
+		$this->redirectIfAuthorized();
+
 		$request = Container::getInstance()->get(Request::class);
 		$view = Container::getInstance()->get(View::class);
+		$userData = [
+			'EMAIL' => $request->getPostParameter('email'),
+			'PASSWORD' => $request->getPostParameter('password'),
+			'REPEATED_PASSWORD' => $request->getPostParameter('repeatedPassword'),
+			'SENSOR' => $request->getPostParameter('sensor'),
+			'CAR' => $request->getPostParameter('car'),
+			'YEAR' => $request->getPostParameter('year'),
+			'ENGINE_TYPE' => $request->getPostParameter('engineType'),
+			'MAILING_AGREEMENT' => !is_null($request->getPostParameter('mailingAgreement'))
+		];
 		$user = [];
 		if($request->getPostParameter('email') && $request->getPostParameter('password'))
 		{
-			$email = $request->getPostParameter('email');
-			$password = $request->getPostParameter('password');
-			$repeatedPassword = $request->getPostParameter('repeatedPassword');
-			$sensor = $request->getPostParameter('sensor');
-			$car = $request->getPostParameter('car');
-			$year = $request->getPostParameter('year');
-			$engineType = $request->getPostParameter('engineType');
-			$mailingAgreement = !is_null($request->getPostParameter('mailingAgreement'));
-			$user = Container::getInstance()->get(User::class)->register($email, $password, $repeatedPassword, $sensor, $year, $car, $engineType, $mailingAgreement);
+			$user = Container::getInstance()->get(User::class)->register($userData);
 			if(!isset($user['errors']))
 			{
 				header('Location: /');
 				die();
 			}
 			$user['values'] = [
-				'email' => $email,
-				'sensor' => $sensor,
-				'car' => $car,
-				'year' => $year,
-				'engineType' => $engineType
+				'email' => $userData['EMAIL'],
+				'sensor' => $userData['SENSOR'],
+				'car' => $userData['CAR'],
+				'year' => $userData['YEAR'],
+				'engineType' => $userData['ENGINE_TYPE']
 			];
 		}
 		$view->show('signup', $user, false);
@@ -83,5 +84,14 @@ class Main implements ControllerInterface
 		}
 		header('Location: /');
 		die();
+	}
+
+	protected function redirectIfAuthorized(): void
+	{
+		if(Container::getInstance()->get(User::class)->isAuthorized())
+		{
+			header('Location: /stat/');
+			die();
+		}
 	}
 }

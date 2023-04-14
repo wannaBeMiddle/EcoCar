@@ -22,8 +22,8 @@
 				<input type="password" class="form-control" id="password" name="password">
 			</div>
 			<div class="form-footer">
-				<?if(isset($result['user']['errors'])):?>
-					<?foreach ($result['user']['errors'] as $error):?>
+				<?if(isset($result['errors'])):?>
+					<?foreach ($result['errors'] as $error):?>
                         <div class="alert alert-danger" role="alert">
 							<?=$error?>
                         </div>
