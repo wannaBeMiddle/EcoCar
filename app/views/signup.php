@@ -18,7 +18,7 @@
 				<label for="email" class="form-label">Email адрес</label>
 				<input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" value="<?= $result['values']['email'] ?? '' ?>">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="" id="email-check-agreement" name="mailingAgreement">
+					<input class="form-check-input" type="checkbox" value="" id="email-check-agreement" name="mailing_agreement">
 					<label class="form-check-label" for="email-check-agreement">
 						Я согласен получать рекламную рассылку
 					</label>
@@ -34,7 +34,7 @@
 			</div>
 			<div class="mb-3">
 				<label for="passwordRepeat" class="form-label">Повторите пароль</label>
-				<input type="password" class="form-control" id="passwordRepeat" name="repeatedPassword">
+				<input type="password" class="form-control" id="passwordRepeat" name="repeated_password">
 			</div>
             <h5>Данные об автомобиле</h5>
             <div class="mb-3">
@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
                 <label for="engineType" class="form-label">Тип двигателя</label>
-                <select class="selectpicker form-select" id="engineType" data-live-search="true" name="engineType">
+                <select class="selectpicker form-select" id="engineType" data-live-search="true" name="engine_type">
                     <option value="1" selected>Бензиновый</option>
                     <option value="2">Дизельный</option>
                 </select>

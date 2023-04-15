@@ -15,18 +15,16 @@ class Main implements ControllerInterface
 	{
 		$this->redirectIfAuthorized();
 
+		/**
+		 * @var $request Request
+		 */
 		$request = Container::getInstance()->get(Request::class);
 		$view = Container::getInstance()->get(View::class);
 
-		$userData = [
-			'EMAIL' => $request->getPostParameter('email'),
-			'PASSWORD' => $request->getPostParameter('password')
-		];
-
 		$user = [];
-		if($userData['EMAIL'] || $userData['PASSWORD'])
+		if($request->getPostParameter('email') || $request->getPostParameter('password'))
 		{
-			$user = Container::getInstance()->get(User::class)->authorize($userData);
+			$user = Container::getInstance()->get(User::class)->authorize($request);
 			if(!isset($user['errors']))
 			{
 				header('Location: /stat/');
@@ -35,7 +33,7 @@ class Main implements ControllerInterface
 		}
 
 		$view->show('login', [
-			'email' => $userData['EMAIL'],
+			'email' => $request->getPostParameter('email'),
 			'errors' => $user['errors']??[]
 		], false);
 	}
@@ -44,34 +42,21 @@ class Main implements ControllerInterface
 	{
 		$this->redirectIfAuthorized();
 
+		/**
+		 * @var $request Request
+		 */
 		$request = Container::getInstance()->get(Request::class);
 		$view = Container::getInstance()->get(View::class);
-		$userData = [
-			'EMAIL' => $request->getPostParameter('email'),
-			'PASSWORD' => $request->getPostParameter('password'),
-			'REPEATED_PASSWORD' => $request->getPostParameter('repeatedPassword'),
-			'SENSOR' => $request->getPostParameter('sensor'),
-			'CAR' => $request->getPostParameter('car'),
-			'YEAR' => $request->getPostParameter('year'),
-			'ENGINE_TYPE' => $request->getPostParameter('engineType'),
-			'MAILING_AGREEMENT' => !is_null($request->getPostParameter('mailingAgreement'))
-		];
 		$user = [];
 		if($request->getPostParameter('email') && $request->getPostParameter('password'))
 		{
-			$user = Container::getInstance()->get(User::class)->register($userData);
+			$user = Container::getInstance()->get(User::class)->register($request);
 			if(!isset($user['errors']))
 			{
 				header('Location: /');
 				die();
 			}
-			$user['values'] = [
-				'email' => $userData['EMAIL'],
-				'sensor' => $userData['SENSOR'],
-				'car' => $userData['CAR'],
-				'year' => $userData['YEAR'],
-				'engineType' => $userData['ENGINE_TYPE']
-			];
+			$user['values'] = $request->getPostParameters();
 		}
 		$view->show('signup', $user, false);
 	}
