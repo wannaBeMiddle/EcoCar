@@ -1,7 +1,8 @@
 /.idea/
 /app/configuration.php
-/app/modules
+/app/modules/*
 /logs
 .htaccess
 index.php
 /app/namespaces.php
+!/app/modules/ecocar
