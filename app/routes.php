@@ -11,5 +11,5 @@ return [
 	//new Route('keylogging/getOptions', 'KeyLogging', 'getOptions', 'GET'),
 	new Route('keylogging/', 'KeyLogging', 'send', 'POST'),
 	new Route('keylogging/getOptions', 'KeyLogging', 'getOptions', 'GET'),
-
+	new Route('/profile', 'Profile', 'getProfile'),
 ];
