@@ -114,7 +114,6 @@ class User
                     'model' => $userData['car'],
                     'id' => $userCar
                 ]);
-                var_dump($carUpdate->getError());
             }else
             {
                 $errors = "Ошибка обновления данных";
@@ -123,5 +122,21 @@ class User
         return [
             'errors' => $errors
         ];
+    }
+
+    static public function addQuestion(Request $request)
+    {
+        $userData = array_change_key_case($request->getPostParameters(), CASE_LOWER);
+        (new InsertQuery())
+            ->setTableName('questions')
+            ->setFields(['name', 'email', 'question', 'user'])
+            ->setValues([':name', ':email', ':question', ':user'])
+            ->setParams([
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'question' => $userData['question'],
+                'user' => Container::getInstance()->get(\App\Modules\System\User\User::class)->getId()
+            ])
+            ->execution();
     }
 }
