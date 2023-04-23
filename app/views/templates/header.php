@@ -24,6 +24,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/question/">Задать вопрос</a>
 				</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/edit/">Ввести показания</a>
+                </li>
 				<li class="nav-item">
 					<a class="nav-link link-danger" href="/logout/">Выйти</a>
 				</li>

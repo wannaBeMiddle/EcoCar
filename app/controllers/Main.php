@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Modules\Ecocar\User\User as Us;
 use App\Modules\System\Container\Container;
 use App\Modules\System\Controller\ControllerInterface;
 use App\Modules\System\Request\Request;
@@ -77,6 +78,18 @@ class Main implements ControllerInterface
 		{
 			header('Location: /stat/');
 			die();
+		}
+	}
+
+	public function edit()
+	{
+		$user = Container::getInstance()->get(User::class)->getId();
+		if ($user)
+		{
+			$view = Container::getInstance()->get(View::class);
+			$view->show('edit', [
+				'user' => Container::getInstance()->get(User::class)->getId()
+			], true);
 		}
 	}
 }
