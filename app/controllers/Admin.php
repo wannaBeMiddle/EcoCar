@@ -33,16 +33,20 @@ class Admin implements ControllerInterface
 		 * @var $request Request
 		 */
 		$request = Container::getInstance()->get(Request::class);
+		$view = Container::getInstance()->get(View::class);
 		if($user = $request->getQueryParameter('user'))
 		{
 			$sensor = new Sensor();
 			$values = $sensor->getSensorStatistic($user);
 			if(!$values)
 			{
+				$props = $sensor->getSensorProps();
 				echo '<h4>Показания датчика отсутствуют</h4>';
+				$view->show('add_values', [
+					'props' => $props,
+				], false);
 				die();
 			}
-			$view = Container::getInstance()->get(View::class);
 			$view->show('admin_stat', [
 				'values' => $values,
 				'user' => $user
@@ -68,6 +72,18 @@ class Admin implements ControllerInterface
 			'result' => $result,
 			'prop' => $prop]
 		);
+		die();
+	}
+
+	public function addValues()
+	{
+		/**
+		 * @var $request Request
+		 */
+		$request = Container::getInstance()->get(Request::class);
+		$sensor = new Sensor();
+		$result = $sensor->addValues($request->getPostParameter('values'), $request->getPostParameter('userId'));
+		echo json_encode($result);
 		die();
 	}
 }

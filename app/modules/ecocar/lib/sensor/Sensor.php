@@ -5,6 +5,7 @@ namespace App\Modules\Ecocar\Sensor;
 use App\Modules\System\Container\Container;
 use App\Modules\System\DataBase\DataBaseResult;
 use App\Modules\System\DataBase\MySqlDb;
+use App\Modules\System\DataBase\Queries\InsertQuery;
 use App\Modules\System\DataBase\Queries\SelectQuery;
 use App\Modules\System\Request\Request;
 use App\Modules\System\User\User;
@@ -168,5 +169,43 @@ class Sensor
 		return [
 			'result' => false,
 		];
+	}
+
+	public function getSensorProps(): array
+	{
+		return (new SelectQuery())
+			->setTableName('sensorProperties')
+			->setSelect(['id', 'name'])
+			->execution()
+			->getResult();
+	}
+
+	public function addValues(array $values, int $userId): bool
+	{
+		$user = Us::getUserById($userId);
+		$sensor = $user['user']['sensor'];
+		try {
+			foreach ($values as $prop => $value)
+			{
+				if(!$value)
+				{
+					$value = 0;
+				}
+				(new InsertQuery())
+					->setTableName('sensorPropertiesValues')
+					->setFields(['value', 'property', 'sensor'])
+					->setValues([':value', ':property', ':sensor'])
+					->setParams([
+						'value' => $value,
+						'property' => $prop,
+						'sensor' => $sensor,
+					])
+					->execution();
+			}
+		}catch (\Exception $exception)
+		{
+			return false;
+		}
+		return true;
 	}
 }

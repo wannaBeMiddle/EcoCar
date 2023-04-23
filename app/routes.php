@@ -17,4 +17,5 @@ return [
 	new Route('/admin/getUserStat', 'Admin', 'getStat', 'GET'),
 	new Route('/admin/editProp', 'Admin', 'editProp', 'POST'),
 	new Route('/edit/', 'Main', 'edit', 'GET'),
+	new Route('/admin/addValues', 'Admin', 'addValues', 'POST'),
 ];
