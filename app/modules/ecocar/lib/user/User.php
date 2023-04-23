@@ -19,7 +19,7 @@ class User
     {
         $user = (new SelectQuery())
             ->setTableName('users')
-            ->setSelect(['email', 'code', 'model', 'manufacturedYear'])
+            ->setSelect(['email', 'code', 'model', 'manufacturedYear', 'role', 'sensor', 'engineType'])
             ->setWhere([
                 'condition' => 'users.id = :id'
             ])
@@ -33,6 +33,11 @@ class User
                 'ref_table' => 'sensors',
                 'on' => 'this.sensor = ref.id'
             ])
+	        ->setJoin([
+		        'type' => 'inner',
+		        'ref_table' => 'roles',
+		        'on' => 'this.id = ref.user'
+	        ])
             ->setParams([
                 'id' => $id
             ])
@@ -139,4 +144,13 @@ class User
             ])
             ->execution();
     }
+
+	static public function getUsers(): array
+	{
+		$usersResult = (new SelectQuery())
+			->setTableName('users')
+			->setSelect(['id', 'email', 'sensor'])
+			->execution();
+		return $usersResult->getResult();
+	}
 }

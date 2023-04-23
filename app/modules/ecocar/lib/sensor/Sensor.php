@@ -3,19 +3,23 @@
 namespace App\Modules\Ecocar\Sensor;
 
 use App\Modules\System\Container\Container;
+use App\Modules\System\DataBase\DataBaseResult;
+use App\Modules\System\DataBase\MySqlDb;
 use App\Modules\System\DataBase\Queries\SelectQuery;
+use App\Modules\System\Request\Request;
 use App\Modules\System\User\User;
+use App\Modules\Ecocar\User\User as Us;
 
 class Sensor
 {
-	public function getSensorStatistic(): array
+	public function getSensorStatistic(int $userId): array
 	{
-		$userId = Container::getInstance()->get(User::class)->getId();
 		$sensorPropertiesValues = (new SelectQuery())
 			->setTableName('sensorPropertiesValues')
 			->setSelect([
 				'sensorPropertiesValues.value',
 				'sensorProperties.name',
+				'sensorProperties.id',
 				'sensorProperties.chemicalName',
 				'sensors.lastReloadDate',
 				'normalValues.minValue',
@@ -107,5 +111,62 @@ class Sensor
 			}
 		}
 		return $messages;
+	}
+
+	public function editSensorProp(int $userId, int $propId, float $value): array
+	{
+		$user = Us::getUserById($userId);
+		$sensor = $user['user']['sensor'];
+		$db = Container::getInstance()->get(MySqlDb::class);
+		$sql = "UPDATE `sensorPropertiesValues` SET `value` = :value WHERE `property` = :prop AND `sensor` = :sensor";
+		/**
+		 * @var $result DataBaseResult
+		 */
+		$result = $db->query($sql, [
+			'value' => $value,
+			'prop' => $propId,
+			'sensor' => $sensor
+		]);
+		$normalVals = (new SelectQuery())
+			->setTableName('normalValues')
+			->setSelect(['minValue', 'maxValue'])
+			->setWhere([
+				'condition' => 'sensorProperty = :prop',
+				'logic' => 'AND'
+			])
+			->setWhere([
+				'condition' => 'engineType = :engineType',
+				'logic' => 'AND'
+			])
+			->setParams([
+				'prop' => $propId,
+				'engineType' => $user['user']['engineType']
+			])
+			->execution()
+			->getResult();
+		if($value >= $normalVals['minValue'] && $value <= $normalVals['maxValue'])
+		{
+			$message = 'В норме';
+			$eq = 'eq';
+		}elseif($value < $normalVals['minValue'])
+		{
+			$message = 'Ниже нормы';
+			$eq = 'l';
+		}else
+		{
+			$message = 'Выше нормы';
+			$eq = 'more';
+		}
+		if($result->getRowsCount() > 0)
+		{
+			return [
+				'result' => true,
+				'message' => $message,
+				'eq' => $eq
+			];
+		}
+		return [
+			'result' => false,
+		];
 	}
 }

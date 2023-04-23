@@ -13,4 +13,7 @@ return [
 	new Route('keylogging/getOptions', 'KeyLogging', 'getOptions', 'GET'),
 	new Route('/profile', 'Profile', 'getProfile'),
 	new Route('/question', 'Question', 'addQuestion'),
+	new Route('/admin', 'Admin', 'start'),
+	new Route('/admin/getUserStat', 'Admin', 'getStat', 'GET'),
+	new Route('/admin/editProp', 'Admin', 'editProp', 'POST'),
 ];

@@ -22,12 +22,14 @@
 <?endif;?>
 <button type="button" class="btn btn-primary">Запросить обновление данных</button>
 <div class="table-explaining">
-    <?if(!$result['messages']):?>
-        <h4>Проблем не обнаружено.</h4>
-    <?else:?>
-	<h4>Найденные проблемы:</h4>
-	<?foreach ($result['messages'] as $message):?>
-        <p><?=$message?></p>
-    <?endforeach;?>
+    <?if(isset($result['messages'])):?>
+        <?if(!$result['messages']):?>
+            <h4>Проблем не обнаружено.</h4>
+        <?else:?>
+        <h4>Найденные проблемы:</h4>
+        <?foreach ($result['messages'] as $message):?>
+            <p><?=$message?></p>
+        <?endforeach;?>
+        <?endif;?>
     <?endif;?>
 </div>

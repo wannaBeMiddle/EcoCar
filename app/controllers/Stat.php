@@ -18,7 +18,8 @@ class Stat implements ControllerInterface
 			die();
 		}
 		$sensor = new Sensor();
-		$values = $sensor->getSensorStatistic();
+		$userId = Container::getInstance()->get(User::class)->getId();
+		$values = $sensor->getSensorStatistic($userId);
 		$messages = $sensor->getMessagesByStatistic($values);
 		$view = Container::getInstance()->get(View::class);
 		$view->show('stat', [
