@@ -81,8 +81,13 @@ class Admin implements ControllerInterface
 		 * @var $request Request
 		 */
 		$request = Container::getInstance()->get(Request::class);
+		$userId = $request->getPostParameter('userId');
+		if(!$userId)
+		{
+			$userId = Container::getInstance()->get(User::class)->getId();
+		}
 		$sensor = new Sensor();
-		$result = $sensor->addValues($request->getPostParameter('values'), $request->getPostParameter('userId'));
+		$result = $sensor->addValues($request->getPostParameter('values'), $userId);
 		echo json_encode($result);
 		die();
 	}

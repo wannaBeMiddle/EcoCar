@@ -47,4 +47,28 @@ $this->setTitle("Изменить показания счетчиков");
             }
         });
     });
+
+    $('body').on('click', '.save', function () {
+        let newValues = $('.new-value');
+        let ajaxValues = {};
+        for (let i = 0; i < newValues.length; i++) {
+            let prop = newValues[i].getAttribute('data-prop-id');
+            ajaxValues[prop] = newValues[i].value;
+        }
+        $.ajax({
+            url: '/admin/addValues',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                values: ajaxValues,
+                userId: $('.selectpicker').val()
+            },
+            success: function(data){
+                if(data)
+                {
+                    window.location.href = '/admin/';
+                }
+            }
+        });
+    });
 </script>
